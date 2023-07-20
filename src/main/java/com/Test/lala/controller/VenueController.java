@@ -18,10 +18,6 @@ public class VenueController {
     public VenueController(VenueService venueService){
         this.venueService=venueService;
     }
-    @GetMapping("/s")
-    public String index() {
-        return "lalalallalalala";
-    }
 
     @GetMapping("/ceva")
     public List<Venue> getAllOrders() {
