@@ -22,4 +22,8 @@ public class TicketCategoryService {
         return ticketCategoryRepository.findAll();
     }
 
+    public TicketCategory getTicketCategoryById(Long id){
+        return ticketCategoryRepository.findByidTicketCategory(id);
+    }
+
 }

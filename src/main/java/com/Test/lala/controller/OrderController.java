@@ -1,7 +1,9 @@
 package com.Test.lala.controller;
 
 import com.Test.lala.model.OrderU;
+import com.Test.lala.model.TicketCategory;
 import com.Test.lala.service.OrderService;
+import com.Test.lala.service.TicketCategoryService;
 import com.Test.lala.service.dto.OrderDTO;
 import com.Test.lala.service.mapper.OrderToOrderDToMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +17,12 @@ import java.util.stream.Collectors;
 public class OrderController {
 
     private OrderService orderService;
+    private TicketCategoryService ticketCategoryService;
 
     @Autowired
-    public OrderController(OrderService orderService) {
+    public OrderController(OrderService orderService, TicketCategoryService ticketCategoryService) {
         this.orderService = orderService;
+        this.ticketCategoryService=ticketCategoryService;
     }
 
     @GetMapping("/orders2")
@@ -40,8 +44,8 @@ public class OrderController {
     @PostMapping("/orders/{idUser}")
     public OrderDTO createOrder(@RequestBody OrderDTO orderRequestDTO,@PathVariable Long idUser ) {
 
-        double ticketPrice = orderRequestDTO.getIdEvent();
-        double totalPrice = orderRequestDTO.getNumberOfTickets() * ticketPrice;
+        TicketCategory ticketCategory = ticketCategoryService.getTicketCategoryById(orderRequestDTO.getTicketCategoryID());
+        double totalPrice = orderRequestDTO.getNumberOfTickets() * ticketCategory.getPrice();
 
         Date orderedAt = new Date();
         OrderDTO orderDTO = new OrderDTO();

@@ -60,9 +60,10 @@ public class OrderService {
 
         TicketCategory ticketCategoryOrdered=ticketCategoryRepository.
                 findByidTicketCategory(orderDTO.getTicketCategoryID());
+
+
         UserU user=userRepository.findUserUByIdUser(idUser);
         order.setUser(user);
-        order.setIdOrder(orderDTO.getIdEvent());
         order.setTicketCategory(ticketCategoryOrdered);
         order.setOrderedAt(orderDTO.getOrderedAt());
         order.setNumberOfTickets(orderDTO.getNumberOfTickets());
