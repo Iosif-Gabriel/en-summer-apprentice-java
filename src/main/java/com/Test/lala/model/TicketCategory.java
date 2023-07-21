@@ -18,6 +18,7 @@ public class TicketCategory {
     @Column(name = "descriptionEventCategory", nullable = false)
     private String descriptionEventCategory;
 
+
     @Column(name = "price", nullable = false)
     private Double price;
 
@@ -42,10 +43,19 @@ public class TicketCategory {
 
     }
 
-    public TicketCategory(Long idTicketCategory, EventU event, String descriptionEventCategory, Double price) {
-        this.idTicketCategory = idTicketCategory;
+    public EventU getEvent() {
+        return event;
+    }
+
+    public void setEvent(EventU event) {
         this.event = event;
-        this.descriptionEventCategory = descriptionEventCategory;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
         this.price = price;
     }
 }

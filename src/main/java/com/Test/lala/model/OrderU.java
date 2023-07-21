@@ -89,4 +89,16 @@ public class OrderU implements Serializable {
         this.numberOfTickets = numberOfTickets;
         this.totalPrice = totalPrice;
     }
+
+    @Override
+    public String toString() {
+        return "OrderU{" +
+                "idOrder=" + idOrder +
+                ", user=" + user +
+                ", ticketCategory=" + ticketCategory +
+                ", orderedAt=" + orderedAt +
+                ", numberOfTickets=" + numberOfTickets +
+                ", totalPrice=" + totalPrice +
+                '}';
+    }
 }

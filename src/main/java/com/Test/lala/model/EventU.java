@@ -2,6 +2,7 @@ package com.Test.lala.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -87,5 +88,31 @@ public class EventU {
         this.descriptionEvent = descriptionEvent;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.ticketCategories = new ArrayList<>();
+    }
+
+    public Venue getVenue() {
+        return venue;
+    }
+
+
+    public void setVenue(Venue venue) {
+        this.venue = venue;
+    }
+
+    public EventType getEventType() {
+        return eventType;
+    }
+
+    public void setEventType(EventType eventType) {
+        this.eventType = eventType;
+    }
+
+    public List<TicketCategory> getTicketCategories() {
+        return ticketCategories;
+    }
+
+    public void setTicketCategories(List<TicketCategory> ticketCategories) {
+        this.ticketCategories = ticketCategories;
     }
 }
