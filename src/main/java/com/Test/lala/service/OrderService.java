@@ -1,23 +1,20 @@
 package com.Test.lala.service;
 
-import com.Test.lala.model.EventU;
 import com.Test.lala.model.OrderU;
 import com.Test.lala.model.TicketCategory;
 import com.Test.lala.model.UserU;
 import com.Test.lala.repository.OrderRepository;
 import com.Test.lala.repository.TicketCategoryRepository;
 import com.Test.lala.repository.UserRepository;
-import com.Test.lala.service.dto.OrderDTO;
+import com.Test.lala.model.dto.OrderDTO;
 import jakarta.persistence.EntityNotFoundException;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+
+import static com.Test.lala.service.mapper.OrderDTOMapper.createOrderDTO;
 
 @Service
 public class OrderService {
@@ -26,12 +23,15 @@ public class OrderService {
     private final UserRepository userRepository;
 
     private TicketCategoryRepository ticketCategoryRepository;
+
+    private TicketCategoryService ticketCategoryService;
     @Autowired
     public OrderService(OrderRepository orderRepository,
-                        UserRepository userRepository, TicketCategoryRepository ticketCategoryRepository) {
+                        UserRepository userRepository, TicketCategoryRepository ticketCategoryRepository,TicketCategoryService ticketCategoryService) {
         this.orderRepository = orderRepository;
         this.userRepository = userRepository;
         this.ticketCategoryRepository=ticketCategoryRepository;
+        this.ticketCategoryService=ticketCategoryService;
 
     }
 
@@ -68,8 +68,15 @@ public class OrderService {
         order.setOrderedAt(orderDTO.getOrderedAt());
         order.setNumberOfTickets(orderDTO.getNumberOfTickets());
         order.setTotalPrice((int) orderDTO.getTotalPrice());
-        System.out.println(order);
 
         orderRepository.save(order);
+    }
+
+    public OrderDTO createOrderDB(OrderDTO orderRequestDTO, Long idUser) {
+        double totalPrice = ticketCategoryService.getTotalPrice(orderRequestDTO);
+
+        OrderDTO orderDTO = createOrderDTO(orderRequestDTO, totalPrice);
+        saveOrder(orderDTO, idUser);
+        return orderDTO;
     }
 }

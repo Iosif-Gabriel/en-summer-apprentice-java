@@ -115,4 +115,6 @@ public class EventU {
     public void setTicketCategories(List<TicketCategory> ticketCategories) {
         this.ticketCategories = ticketCategories;
     }
+
+
 }

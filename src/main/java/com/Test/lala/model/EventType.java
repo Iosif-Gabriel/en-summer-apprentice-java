@@ -18,6 +18,14 @@ public class EventType {
     @OneToMany(mappedBy = "eventType")
     private List<EventU> events;
 
+    public List<EventU> getEvents() {
+        return events;
+    }
+
+    public void setEvents(List<EventU> events) {
+        this.events = events;
+    }
+
     public Long getIdEventType() {
         return idEventType;
     }

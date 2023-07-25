@@ -1,9 +1,6 @@
-package com.Test.lala.service.dto;
+package com.Test.lala.model.dto;
 
-import com.Test.lala.model.EventType;
 import com.Test.lala.model.EventU;
-import com.Test.lala.model.TicketCategory;
-import com.Test.lala.model.Venue;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.util.ArrayList;

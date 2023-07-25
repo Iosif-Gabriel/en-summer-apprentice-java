@@ -19,7 +19,7 @@ public class VenueController {
         this.venueService=venueService;
     }
 
-    @GetMapping("/ceva")
+    @GetMapping("/allVenues")
     public List<Venue> getAllOrders() {
         return venueService.orderFindAll();
     }

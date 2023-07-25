@@ -1,12 +1,13 @@
 package com.Test.lala.service;
 
+import com.Test.lala.model.dto.OrderDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.Test.lala.model.TicketCategory;
-import com.Test.lala.service.dto.TicketCategoryDTO;
 import com.Test.lala.repository.TicketCategoryRepository;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static com.Test.lala.service.mapper.OrderDTOMapper.createOrderDTO;
 
 @Service
 public class TicketCategoryService {
@@ -25,5 +26,15 @@ public class TicketCategoryService {
     public TicketCategory getTicketCategoryById(Long id){
         return ticketCategoryRepository.findByidTicketCategory(id);
     }
+
+    public double getTotalPrice(OrderDTO orderRequestDTO) {
+        TicketCategory ticketCategory = getTicketCategoryById(orderRequestDTO.getTicketCategoryID());
+        double totalPrice = orderRequestDTO.getNumberOfTickets() * ticketCategory.getPrice();
+        return totalPrice;
+    }
+
+
+
+
 
 }

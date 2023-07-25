@@ -2,14 +2,14 @@ package com.Test.lala.service.mapper;
 
 import com.Test.lala.model.EventU;
 import com.Test.lala.model.TicketCategory;
-import com.Test.lala.service.dto.EventDTO;
-import com.Test.lala.service.dto.TicketCategoryDTO;
-import com.Test.lala.service.dto.VenueDTO;
+import com.Test.lala.model.dto.EventDTO;
+import com.Test.lala.model.dto.TicketCategoryDTO;
+import com.Test.lala.model.dto.VenueDTO;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class EventToEventDToMapper {
+public class EventDTOMapper{
 
   public static EventDTO convertReq(EventU event) {
       EventDTO eventDTO = new EventDTO();

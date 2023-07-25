@@ -4,14 +4,17 @@ import com.Test.lala.model.OrderU;
 import com.Test.lala.model.TicketCategory;
 import com.Test.lala.service.OrderService;
 import com.Test.lala.service.TicketCategoryService;
-import com.Test.lala.service.dto.OrderDTO;
-import com.Test.lala.service.mapper.OrderToOrderDToMapper;
+import com.Test.lala.model.dto.OrderDTO;
+import com.Test.lala.service.mapper.OrderDTOMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.Test.lala.service.mapper.OrderDTOMapper.createOrderDTO;
 
 @RestController
 public class OrderController {
@@ -25,40 +28,34 @@ public class OrderController {
         this.ticketCategoryService=ticketCategoryService;
     }
 
-    @GetMapping("/orders2")
-    public List<OrderU> getAllOrders() {
-        return orderService.orderFindAll();
+    @GetMapping("/allOrders")
+    public List<OrderDTO> getAllOrders() {
+        List<OrderU> orders=orderService.orderFindAll();
+        List<OrderDTO> orderDTOS= new ArrayList<>();
+
+        for(OrderU order:orders){
+            orderDTOS.add(OrderDTOMapper.converter(order));
+        }
+
+        return orderDTOS;
     }
 
-    @PostMapping("/createOrder")
-    public OrderU createOrderU(@RequestBody OrderU orderU) {
-        return orderService.createOrder(orderU);
-    }
 
     @GetMapping("/customer-orders/{userId}")
     public List<OrderDTO> getCustomerOrders(@PathVariable Long userId) {
         List<OrderU> ordersUser=orderService.findCustomerOrders(userId);
-        return ordersUser.stream().map(OrderToOrderDToMapper::converter).collect(Collectors.toList());
+        return ordersUser.stream().map(OrderDTOMapper::converter).collect(Collectors.toList());
     }
 
-    @PostMapping("/orders/{idUser}")
+    @PostMapping("/createOrder/{idUser}")
     public OrderDTO createOrder(@RequestBody OrderDTO orderRequestDTO,@PathVariable Long idUser ) {
 
-        TicketCategory ticketCategory = ticketCategoryService.getTicketCategoryById(orderRequestDTO.getTicketCategoryID());
-        double totalPrice = orderRequestDTO.getNumberOfTickets() * ticketCategory.getPrice();
-
-        Date orderedAt = new Date();
-        OrderDTO orderDTO = new OrderDTO();
-
-        orderDTO.setIdEvent(orderRequestDTO.getIdEvent());
-        orderDTO.setTicketCategoryID(orderRequestDTO.getTicketCategoryID());
-        orderDTO.setOrderedAt(orderedAt);
-        orderDTO.setNumberOfTickets(orderRequestDTO.getNumberOfTickets());
-        orderDTO.setTotalPrice(totalPrice);
-        orderService.saveOrder(orderDTO,idUser);
-
-        return orderDTO;
+        return orderService.createOrderDB(orderRequestDTO, idUser);
     }
+
+
+
+
 
 
 }

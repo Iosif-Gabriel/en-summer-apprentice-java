@@ -1,12 +1,12 @@
 package com.Test.lala.service.mapper;
 
 import com.Test.lala.model.TicketCategory;
-import com.Test.lala.service.dto.TicketCategoryDTO;
+import com.Test.lala.model.dto.TicketCategoryDTO;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TicketToTickerDToMapper {
+public class TicketDTOMapper {
 
     public static TicketCategoryDTO req(TicketCategory category){
         TicketCategoryDTO ticketCategoryDTO=new TicketCategoryDTO();

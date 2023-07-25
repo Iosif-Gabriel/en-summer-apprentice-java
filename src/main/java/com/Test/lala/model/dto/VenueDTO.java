@@ -1,4 +1,4 @@
-package com.Test.lala.service.dto;
+package com.Test.lala.model.dto;
 
 import com.Test.lala.model.Venue;
 

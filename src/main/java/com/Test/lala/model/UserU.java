@@ -2,6 +2,8 @@ package com.Test.lala.model;
 
 import jakarta.persistence.*;
 
+import javax.management.relation.Role;
+
 import java.util.List;
 
 @Entity
@@ -27,6 +29,7 @@ public class UserU {
     @OneToMany(mappedBy = "user")
     private List<OrderU> orders;
 
+
     public Long getIdUser() {
         return idUser;
     }
@@ -42,6 +45,7 @@ public class UserU {
     public void setUsername(String username) {
         this.username = username;
     }
+
 
     public String getPassword() {
         return password;
