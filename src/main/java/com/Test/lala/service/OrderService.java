@@ -1,5 +1,7 @@
 package com.Test.lala.service;
 
+import com.Test.lala.exception.OrderException;
+import com.Test.lala.exception.TicketException;
 import com.Test.lala.model.OrderU;
 import com.Test.lala.model.TicketCategory;
 import com.Test.lala.model.UserU;
@@ -7,17 +9,19 @@ import com.Test.lala.repository.OrderRepository;
 import com.Test.lala.repository.TicketCategoryRepository;
 import com.Test.lala.repository.UserRepository;
 import com.Test.lala.model.dto.OrderDTO;
+import com.Test.lala.service.interfaceservice.IOrderService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
-import static com.Test.lala.service.mapper.OrderDTOMapper.createOrderDTO;
+import static com.Test.lala.service.mapper.OrderDTOMapper.createOrderFromDTO;
 
 @Service
-public class OrderService {
+public class OrderService implements IOrderService {
 
     private OrderRepository orderRepository;
     private final UserRepository userRepository;
@@ -37,10 +41,6 @@ public class OrderService {
 
     public List<OrderU> orderFindAll() {
         return orderRepository.findAll();
-    }
-
-    public OrderU createOrder(OrderU lala) {
-        return orderRepository.save(lala);
     }
 
     public OrderU findById(Long id) {
@@ -67,16 +67,52 @@ public class OrderService {
         order.setTicketCategory(ticketCategoryOrdered);
         order.setOrderedAt(orderDTO.getOrderedAt());
         order.setNumberOfTickets(orderDTO.getNumberOfTickets());
-        order.setTotalPrice((int) orderDTO.getTotalPrice());
+        //order.setTotalPrice((int) orderDTO.getTotalPrice());
 
         orderRepository.save(order);
     }
 
     public OrderDTO createOrderDB(OrderDTO orderRequestDTO, Long idUser) {
-        double totalPrice = ticketCategoryService.getTotalPrice(orderRequestDTO);
+        try {
+            double totalPrice = ticketCategoryService.getTotalPrice(orderRequestDTO);
 
-        OrderDTO orderDTO = createOrderDTO(orderRequestDTO, totalPrice);
-        saveOrder(orderDTO, idUser);
-        return orderDTO;
+            OrderDTO orderDTO = createOrderFromDTO(orderRequestDTO, totalPrice);
+            saveOrder(orderDTO, idUser);
+
+            return orderDTO;
+        } catch (TicketException e) {
+
+            throw new OrderException("Failed to create order: Ticket category not found");
+        } catch (Exception e) {
+
+            throw new OrderException("Failed to create order", e);
+        }
     }
+
+    public void updateOrder(OrderDTO orderRequestDTO, Long orderId) {
+
+        Objects.requireNonNull(orderRequestDTO, "OrderDTO must not be null");
+
+        double totalPrice = ticketCategoryService.getTotalPrice(orderRequestDTO);
+        TicketCategory ticketCategory = ticketCategoryRepository.getReferenceById(orderRequestDTO.getTicketCategoryID());
+
+        OrderU orderU = findById(orderId);
+        if (orderU == null) {
+            throw new OrderException("Order with ID " + orderId + " not found");
+        }
+
+        orderU.setTicketCategory(ticketCategory);
+        orderU.setTotalPrice((int) totalPrice);
+        orderU.setNumberOfTickets(orderRequestDTO.getNumberOfTickets());
+        orderRepository.save(orderU);
+    }
+
+    public void deleteOrderById(Long orderId){
+        OrderU orderU = findById(orderId);
+        if (orderU == null) {
+            throw new OrderException("Order with ID " + orderId + " not found");
+        }
+        orderRepository.delete(orderU);
+    }
+
 }

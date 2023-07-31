@@ -37,7 +37,7 @@ public class SecurityConfig {
         httpSecurity.csrf().disable();
         httpSecurity.authorizeRequests()
 
-                .requestMatchers(HttpMethod.PUT, "/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PATCH, "/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.DELETE, "/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.GET, "/**").hasAnyRole("ADMIN", "USER")
                 .requestMatchers(HttpMethod.POST, "/**").hasAnyRole("ADMIN", "USER")

@@ -20,7 +20,7 @@ public class OrderDTOMapper {
         return orderResponseDTO;
     }
 
-    public static OrderDTO createOrderDTO(OrderDTO orderRequestDTO, double totalPrice) {
+    public static OrderDTO createOrderFromDTO(OrderDTO orderRequestDTO, double totalPrice) {
         Date orderedAt = new Date();
         OrderDTO orderDTO = new OrderDTO();
 

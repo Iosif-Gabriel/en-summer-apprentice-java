@@ -3,6 +3,7 @@ package com.Test.lala.service;
 import com.Test.lala.controller.EventController;
 import com.Test.lala.model.EventU;
 import com.Test.lala.repository.EventRepository;
+import com.Test.lala.service.interfaceservice.IEventService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class EventService {
+public class EventService implements IEventService {
 
     private EventRepository eventRepository;
     @Autowired

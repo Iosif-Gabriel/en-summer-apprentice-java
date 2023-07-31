@@ -3,6 +3,7 @@ package com.Test.lala.service;
 import com.Test.lala.model.OrderU;
 import com.Test.lala.model.UserU;
 import com.Test.lala.repository.UserRepository;
+import com.Test.lala.service.interfaceservice.IUserService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class UserService {
+public class UserService implements IUserService {
 
     private UserRepository userRepository;
 
@@ -22,7 +23,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public UserU findById(Long id){
+    public UserU findUserById(Long id){
         Optional<UserU> userFindById=userRepository.findById(id);
         if(userFindById.isPresent()){
             return userFindById.get();

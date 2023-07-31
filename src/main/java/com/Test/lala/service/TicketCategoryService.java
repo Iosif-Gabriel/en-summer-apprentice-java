@@ -1,16 +1,16 @@
 package com.Test.lala.service;
 
 import com.Test.lala.model.dto.OrderDTO;
+import com.Test.lala.service.interfaceservice.ITicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.Test.lala.model.TicketCategory;
 import com.Test.lala.repository.TicketCategoryRepository;
 import java.util.List;
 
-import static com.Test.lala.service.mapper.OrderDTOMapper.createOrderDTO;
 
 @Service
-public class TicketCategoryService {
+public class TicketCategoryService implements ITicketService {
 
     private final TicketCategoryRepository ticketCategoryRepository;
 
